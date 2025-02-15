@@ -1,4 +1,8 @@
 class Product < ApplicationRecord
+  belongs_to :category, optional: true
+  belongs_to :brand, optional: true
+  has_many :reviews, dependent: :destroy
+
   validates :name, presence: true, length: { maximum: 255 }
   validates :description, length: { maximum: 1000 }, allow_blank: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true

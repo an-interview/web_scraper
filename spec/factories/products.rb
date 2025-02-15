@@ -9,7 +9,7 @@ FactoryBot.define do
     scraped_at { Time.current }
     rating { 4.5 }
     review_count { 100 }
-    category { "Electronics" }
-    brand { "BrandX" }
+    category
+    brand
   end
 end

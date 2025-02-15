@@ -32,4 +32,10 @@ RSpec.describe Product, type: :model do
       expect(product).to be_valid
     end
   end
+
+  describe "associations" do
+    it { should belong_to(:category).optional }
+    it { should belong_to(:brand).optional }
+    it { should have_many(:reviews).dependent(:destroy) }
+  end
 end
