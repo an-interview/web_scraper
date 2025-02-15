@@ -36,6 +36,5 @@ RSpec.describe Product, type: :model do
   describe "associations" do
     it { should belong_to(:category).optional }
     it { should belong_to(:brand).optional }
-    it { should have_many(:reviews).dependent(:destroy) }
   end
 end

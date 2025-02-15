@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_15_030902) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_15_064024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,29 +35,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_15_030902) do
     t.string "currency"
     t.string "image_url"
     t.string "source_url", null: false
-    t.datetime "scraped_at", null: false
-    t.string "category"
-    t.string "brand"
+    t.datetime "scraped_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.decimal "rating", precision: 3, scale: 2
     t.integer "review_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "category_id", null: false
-    t.bigint "brand_id", null: false
-    t.index ["brand_id"], name: "index_products_on_brand_id"
-    t.index ["category_id"], name: "index_products_on_category_id"
-  end
-
-  create_table "reviews", force: :cascade do |t|
-    t.bigint "product_id", null: false
-    t.decimal "rating", precision: 3, scale: 2
-    t.text "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_reviews_on_product_id"
+    t.bigint "category_id"
+    t.bigint "brand_id"
   end
 
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
-  add_foreign_key "reviews", "products"
 end
