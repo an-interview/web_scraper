@@ -74,3 +74,7 @@ group :test do
 end
 
 gem "haml"
+gem "httparty"
+gem "kaminari"
+gem "nokogiri"
+gem "sidekiq"
