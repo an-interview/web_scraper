@@ -73,8 +73,10 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem "active_model_serializers"
 gem "haml"
 gem "httparty"
 gem "kaminari"
 gem "nokogiri"
+gem "rack-cors"
 gem "sidekiq"
