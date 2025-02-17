@@ -60,7 +60,7 @@ class ImportProductJob < ApplicationJob
     {
       status: status,
       error: error,
-      name: page ? page.at_xpath('//h1[1]/span[1]').text : 'N/A',
+      name: page ? page.at_css('#container > div > div._39kFie.N3De93.JxFEK3._48O0EI > div.DOjaWF.YJG4Cf > div.DOjaWF.gdgoEp.col-8-12 > div:nth-child(2) > div > div:nth-child(1) > h1 > span.VU-ZEz').text : 'N/A',
       price: page ? number_from_string(page.at_css('div.Nx9bqj.CxhGGd').text)[1].to_f : 0.0,
       currency: 'INR', # TODO: Parse currency from currency symbol
       image_url: page ? page.at_css('div.gqcSqV.YGE0gZ img')['src'] : '',
