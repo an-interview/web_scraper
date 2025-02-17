@@ -3,22 +3,26 @@ class ImportProductJob < ApplicationJob
 
   def perform(url)
     page = product_data(url)
-    create_product_record(url, page: page, status: true, error: nil)
+    create_product_record(url, page, true, nil)
   rescue ActionController::RoutingError => e
     Rails.logger.error "Failed to fetch product data from #{url}: #{e}"
-    create_product_record(url, page: nil, status: false, error: "Failed to fetch product data from #{url}")
+    create_product_record(url, nil, false, "Failed to fetch product data from #{url}")
     raise e
   rescue SocketError => e
     Rails.logger.error 'Unable to reach the web page. Check URL.'
-    create_product_record(url, page: nil, status: false, error: 'Unable to reach the web page. Check URL')
+    create_product_record(url, nil, false, 'Unable to reach the web page. Check URL')
     raise e
   rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "Invalid Data"
-    create_product_record(url, page: nil, status: false, error: 'Invalid Data')
+    Rails.logger.error 'Invalid Data'
+    create_product_record(url, nil, false, 'Invalid Data')
+    raise e
+  rescue NoMethodError => e
+    Rails.logger.error 'Error parsing the page data'
+    create_product_record(url, nil, false, 'Error parsing the page data')
     raise e
   rescue StandardError => e
     Rails.logger.error "Error importing product from #{url}: #{e.message}"
-    create_product_record(url, page: nil, status: false, error: "Error importing product from #{url}")
+    create_product_record(url, nil, false, "Error importing product from #{url}")
     raise e
   end
 
@@ -29,7 +33,7 @@ class ImportProductJob < ApplicationJob
     string_arr.flatten
   end
 
-  def create_product_record(url, page: nil, status: false, error: nil)
+  def create_product_record(url, page, status=false, error=nil)
     # we want to create the record for user's reference when we can't reach the webpage
     # so that user gets change to fix URL error in future
     # sending nil page sets custom value for the failed record
@@ -48,7 +52,7 @@ class ImportProductJob < ApplicationJob
     Nokogiri::HTML(response.body)
   end
 
-  def data_from_page(page, status: true, error: nil)
+  def data_from_page(page, status=true, error=nil)
     review_count = page ? page.at_css('#container > div > div._39kFie.N3De93.JxFEK3._48O0EI > div.DOjaWF.YJG4Cf > div.DOjaWF.gdgoEp.col-8-12 > div.DOjaWF.gdgoEp > div:nth-child(6) > div > div.row.q4T7rk._8-rIO3 > div > div > div.col-3-12 > div > div:nth-child(3) > div > span') : 0
     category_name = page ? page.css('div._7dPnhA > div:nth-of-type(2) a').text : nil
     brand_name = page ? page.at_xpath('//h1[1]/span[1]').text : nil
