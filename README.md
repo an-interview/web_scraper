@@ -1,24 +1,12 @@
-# README
+# Web Scraper Backend in ROR
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Setup
+- Install PostgreSQL database and create two roles for dev, test and production.
+- Set three environement vairables as `WEB_SCRAPER_DB_URL` for production, `TRIP_TEST_DB_URL` for test and `TRIP_DEV_DB_URL` for development environment in the format of `"postgres://username:password@host/database_name"`
+- Install Rails version 7
+- Install Node >= 18
+- Clone this repository and `cd` to the directory and do `bundle install`
+- Run `rspec` to run all Rspec tests
+- For production build do `bin/rails assets:precompile`
+- Start Background job runner using `bundle exec sidekiq`
+- `bin/dev` to start development server.
