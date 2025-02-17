@@ -5,7 +5,7 @@ FactoryBot.define do
     price { 199.99 }
     currency { "INR" }
     image_url { "https://example.com/sample.jpg" }
-    source_url { "https://example.com/product" }
+    source_url { |n| "https://example#{n}.com/product" }
     scraped_at { Time.current }
     rating { 4.5 }
     review_count { 100 }

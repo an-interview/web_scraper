@@ -56,4 +56,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_16_062959) do
     t.index ["product_id"], name: "index_reviews_on_product_id"
   end
 
+  add_foreign_key "products", "brands"
+  add_foreign_key "products", "categories"
 end
