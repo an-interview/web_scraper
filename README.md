@@ -13,6 +13,7 @@
 - Install Rails version 7
 - Install Node >= 18
 - Clone this repository and `cd` to the directory and do `bundle install`
+- Run `bin/rails db:migrate` to apply all Database migrations.
 - Run `rspec` to run all Rspec tests
 - For production build do `bin/rails assets:precompile`
 - Start Background job runner using `bundle exec sidekiq`
