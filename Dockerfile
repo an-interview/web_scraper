@@ -19,10 +19,10 @@ FROM base as build
 
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3
+    apt-get update -qq && apt-get install -y curl libpq-dev build-essential postgresql-client nodejs
 
 # Install JavaScript dependencies
-ARG NODE_VERSION=18.20.5
+ARG NODE_VERSION=20.18.1
 ARG YARN_VERSION=1.22.5
 ENV PATH=/usr/local/node/bin:$PATH
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
@@ -42,6 +42,8 @@ RUN yarn install --frozen-lockfile
 
 # Copy application code
 COPY . .
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
@@ -72,4 +74,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+CMD ["/usr/bin/entrypoint.sh"]
