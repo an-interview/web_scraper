@@ -42,8 +42,6 @@ RUN yarn install --frozen-lockfile
 
 # Copy application code
 COPY . .
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
@@ -74,4 +72,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["/usr/bin/entrypoint.sh"]
+CMD ["./bin/rails", "server"]
